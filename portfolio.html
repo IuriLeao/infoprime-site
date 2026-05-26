@@ -1,0 +1,514 @@
+bash
+
+cat > /home/claude/portfolio.html << 'HTMLEOF'
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfólio — Infoprime Engenharia Industrial</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    /* ── Estilos exclusivos do portfólio ── */
+
+    .page-header {
+      padding: 160px 48px 80px;
+      background: linear-gradient(135deg, var(--preto) 0%, var(--preto-medio) 60%, var(--preto) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,180,0,0.04) 60px),
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,180,0,0.04) 60px);
+    }
+
+    .page-header::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 38%;
+      width: 2px; height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(255,180,0,0.35) 30%, rgba(255,180,0,0.35) 70%, transparent);
+    }
+
+    .page-header-inner {
+      position: relative; z-index: 1;
+    }
+
+    .breadcrumb {
+      font-family: var(--font-titulo);
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 20px;
+    }
+
+    .breadcrumb a { color: var(--amarelo); }
+
+    .page-header h1 {
+      font-family: var(--font-titulo);
+      font-size: clamp(52px, 7vw, 90px);
+      font-weight: 800;
+      line-height: 0.95;
+      text-transform: uppercase;
+      color: var(--branco);
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+
+    .page-header h1 em {
+      color: var(--amarelo);
+      font-style: normal;
+      display: block;
+    }
+
+    .page-header p {
+      font-size: 17px;
+      color: var(--texto-secundario);
+      font-weight: 300;
+      max-width: 460px;
+      line-height: 1.6;
+    }
+
+    /* ── Filtros ── */
+    .filtros-wrap {
+      background: var(--preto-claro);
+      border-bottom: 1px solid var(--borda-amarela);
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filtros-label {
+      font-family: var(--font-titulo);
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+
+    .filtro-btn {
+      font-family: var(--font-titulo);
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.45);
+      padding: 8px 20px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filtro-btn:hover {
+      border-color: rgba(255,180,0,0.35);
+      color: rgba(255,180,0,0.8);
+    }
+
+    .filtro-btn.ativo {
+      background: var(--amarelo);
+      border-color: var(--amarelo);
+      color: var(--preto);
+    }
+
+    /* ── Grid de projetos ── */
+    .projetos-wrap {
+      padding: 64px 48px 100px;
+      background: var(--preto);
+    }
+
+    .projetos-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .projetos-count {
+      font-family: var(--font-titulo);
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .projetos-count strong {
+      color: var(--amarelo);
+    }
+
+    .projetos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: rgba(255,180,0,0.06);
+    }
+
+    .proj-card {
+      background: var(--preto-card);
+      border: 1px solid var(--borda-sutil);
+      overflow: hidden;
+      position: relative;
+      transition: background 0.3s;
+      cursor: pointer;
+    }
+
+    .proj-card:hover {
+      background: var(--preto-claro);
+    }
+
+    .proj-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--amarelo);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+
+    .proj-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .proj-img {
+      height: 220px;
+      background: var(--preto-medio);
+      border-bottom: 1px solid var(--borda-sutil);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Para adicionar imagem real: <img src="foto.jpg" style="width:100%;height:100%;object-fit:cover;opacity:0.8"> */
+    .proj-img-placeholder {
+      font-size: 48px;
+      opacity: 0.15;
+    }
+
+    .proj-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,14,20,0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .proj-card:hover .proj-overlay {
+      opacity: 1;
+    }
+
+    .proj-overlay span {
+      font-family: var(--font-titulo);
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--amarelo);
+      border: 1px solid rgba(255,180,0,0.4);
+      padding: 10px 24px;
+      border-radius: 2px;
+    }
+
+    .proj-body {
+      padding: 28px 28px 32px;
+    }
+
+    .proj-cat {
+      font-family: var(--font-titulo);
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: rgba(255,180,0,0.6);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .proj-body h3 {
+      font-family: var(--font-titulo);
+      font-size: 22px; font-weight: 700;
+      color: var(--branco);
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+
+    .proj-body p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.38);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .proj-num {
+      font-family: var(--font-titulo);
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 2px;
+      color: rgba(255,180,0,0.2);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .page-header { padding: 140px 24px 60px; }
+      .filtros-wrap { padding: 20px 24px; }
+      .projetos-wrap { padding: 48px 24px 80px; }
+      .projetos-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">
+    <img src="assets/img/fotosite/logo.png" alt="Infoprime" style="height: 50px; width: auto;">
+    <span style="font-family: 'Stereotype', sans-serif; font-size: 22px; letter-spacing: 2px;">
+      <span style="color: #FFB400;">INFO</span><span style="color: #cccccc;">PRIME</span>
+    </span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html#home">Home</a></li>
+    <li><a href="index.html#sobre">Quem Somos</a></li>
+    <li><a href="index.html#servicos">Serviços</a></li>
+    <li><a href="portfolio.html" class="ativo">Portfólio</a></li>
+    <li><a href="index.html#contato">Contato</a></li>
+  </ul>
+</nav>
+
+<!-- HEADER DA PÁGINA -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <p class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Portfólio</p>
+    <h1>Nossos<em>Projetos</em></h1>
+    <p>Confira o que já entregamos para nossos clientes em automação, elétrica, TI e refrigeração industrial.</p>
+  </div>
+</div>
+
+<!-- FILTROS -->
+<div class="filtros-wrap">
+  <span class="filtros-label">Filtrar</span>
+  <button class="filtro-btn ativo" data-filtro="todos">Todos</button>
+  <button class="filtro-btn" data-filtro="engenharia">Engenharia Industrial</button>
+  <button class="filtro-btn" data-filtro="eletrica">Elétrica</button>
+  <button class="filtro-btn" data-filtro="ti">Tecnologia da Informação</button>
+  <button class="filtro-btn" data-filtro="refrigeracao">Refrigeração</button>
+</div>
+
+<!-- PROJETOS -->
+<div class="projetos-wrap">
+  <div class="projetos-info">
+    <p class="projetos-count">Exibindo <strong id="count">8</strong> projetos</p>
+  </div>
+
+  <div class="projetos-grid" id="grid">
+
+    <!-- =============================================
+         SUBSTITUA os dados abaixo pelos projetos reais.
+         Para adicionar foto: dentro de .proj-img, troque
+         o .proj-img-placeholder por:
+         <img src="assets/img/projetos/foto.jpg"
+              style="width:100%;height:100%;object-fit:cover;opacity:0.8">
+    ============================================= -->
+
+    <div class="proj-card" data-cat="engenharia">
+      <div class="proj-img">
+        <div class="proj-img-placeholder">🏭</div>
+        <div class="proj-overlay"><span>Ver projeto</span></div>
+      </div>
+      <div class="proj-body">
+        <span class="proj-num">01</span>
+        <span class="proj-cat">Engenharia Industrial</span>
+        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
+        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+      </div>
+    </div>
+
+    <div class="proj-card" data-cat="eletrica">
+      <div class="proj-img">
+        <div class="proj-img-placeholder">⚡</div>
+        <div class="proj-overlay"><span>Ver projeto</span></div>
+      </div>
+      <div class="proj-body">
+        <span class="proj-num">02</span>
+        <span class="proj-cat">Elétrica</span>
+        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
+        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+      </div>
+    </div>
+
+    <div class="proj-card" data-cat="ti">
+      <div class="proj-img">
+        <div class="proj-img-placeholder">💻</div>
+        <div class="proj-overlay"><span>Ver projeto</span></div>
+      </div>
+      <div class="proj-body">
+        <span class="proj-num">03</span>
+        <span class="proj-cat">Tecnologia da Informação</span>
+        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
+        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+      </div>
+    </div>
+
+    <div class="proj-card" data-cat="refrigeracao">
+      <div class="proj-img">
+        <div class="proj-img-placeholder">❄️</div>
+        <div class="proj-overlay"><span>Ver projeto</span></div>
+      </div>
+      <div class="proj-body">
+        <span class="proj-num">04</span>
+        <span class="proj-cat">Refrigeração</span>
+        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
+        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+      </div>
+    </div>
+
+    <div class="proj-card" data-cat="eletrica">
+      <div class="proj-img">
+        <div class="proj-img-placeholder">🔌</div>
+        <div class="proj-overlay"><span>Ver projeto</span></div>
+      </div>
+      <div class="proj-body">
+        <span class="proj-num">05</span>
+        <span class="proj-cat">Elétrica</span>
+        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
+        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+      </div>
+    </div>
+
+    <div class="proj-card" data-cat="engenharia">
+      <div class="proj-img">
+        <div class="proj-img-placeholder">⚙️</div>
+        <div class="proj-overlay"><span>Ver projeto</span></div>
+      </div>
+      <div class="proj-body">
+        <span class="proj-num">06</span>
+        <span class="proj-cat">Engenharia Industrial</span>
+        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
+        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+      </div>
+    </div>
+
+    <div class="proj-card" data-cat="ti">
+      <div class="proj-img">
+        <div class="proj-img-placeholder">🖥️</div>
+        <div class="proj-overlay"><span>Ver projeto</span></div>
+      </div>
+      <div class="proj-body">
+        <span class="proj-num">07</span>
+        <span class="proj-cat">Tecnologia da Informação</span>
+        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
+        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+      </div>
+    </div>
+
+    <div class="proj-card" data-cat="refrigeracao">
+      <div class="proj-img">
+        <div class="proj-img-placeholder">🌡️</div>
+        <div class="proj-overlay"><span>Ver projeto</span></div>
+      </div>
+      <div class="proj-body">
+        <span class="proj-num">08</span>
+        <span class="proj-cat">Refrigeração</span>
+        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
+        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="secao-cta">
+  <div class="cta-inner">
+    <h2 class="cta-titulo">Gostou do que viu?</h2>
+    <a href="index.html#contato" class="btn-escuro">Solicitar orçamento →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contato">
+  <div class="footer-grid">
+    <div>
+      <div class="logo">
+        <img src="assets/img/fotosite/logo.png" alt="Infoprime" style="height: 40px; width: auto;">
+      </div>
+      <p class="footer-descricao">
+        Soluções em tecnologia e automação industrial desde 2013.
+        Comprometidos com qualidade, pontualidade e inovação.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-titulo">Navegação</div>
+      <ul>
+        <li><a href="index.html#home">Home</a></li>
+        <li><a href="index.html#sobre">Quem Somos</a></li>
+        <li><a href="index.html#servicos">Serviços</a></li>
+        <li><a href="portfolio.html">Portfólio</a></li>
+        <li><a href="index.html#contato">Contato</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-titulo">Contato</div>
+      <ul>
+        <!-- SUBSTITUIR pelos dados reais -->
+        <li><a href="mailto:contato@infoprime.com.br">contato@infoprime.com.br</a></li>
+        <li><a href="tel:+555199999999">(51) 9999-9999</a></li>
+        <li><a href="#">Porto Alegre, RS</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-rodape">
+    <div class="footer-copy">© 2025 Infoprime Engenharia Industrial. Todos os direitos reservados.</div>
+    <div class="footer-copy">Desenvolvido com precisão</div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLUTUANTE -->
+<!-- SUBSTITUIR o número pelo real -->
+<a href="https://wa.me/555199999999" class="whatsapp-btn" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<script>
+  const btns = document.querySelectorAll('.filtro-btn');
+  const cards = document.querySelectorAll('.proj-card');
+  const count = document.getElementById('count');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('ativo'));
+      btn.classList.add('ativo');
+      const filtro = btn.dataset.filtro;
+      let visible = 0;
+      cards.forEach(card => {
+        const mostrar = filtro === 'todos' || card.dataset.cat === filtro;
+        card.style.display = mostrar ? '' : 'none';
+        if (mostrar) visible++;
+      });
+      count.textContent = visible;
+    });
+  });
+</script>
+
+</body>
+</html>
+HTMLEOF
+echo "ok"
+Output
+
+ok
