@@ -1,21 +1,25 @@
-bash
-
-cat > /home/claude/portfolio.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portfólio — Infoprime Engenharia Industrial</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css" />
+
   <style>
-    /* ── Estilos exclusivos do portfólio ── */
+    /* =========================================================
+       PORTFÓLIO MELHORADO — EDITE TEXTOS/IMAGENS NOS CARDS
+    ========================================================= */
 
     .page-header {
-      padding: 160px 48px 80px;
-      background: linear-gradient(135deg, var(--preto) 0%, var(--preto-medio) 60%, var(--preto) 100%);
+      min-height: 520px;
+      padding: 150px 48px 80px;
+      background:
+        radial-gradient(circle at 82% 24%, rgba(255,180,0,0.14), transparent 26%),
+        linear-gradient(135deg, var(--preto) 0%, var(--preto-medio) 55%, var(--preto) 100%);
       position: relative;
       overflow: hidden;
+      border-bottom: 1px solid rgba(255,180,0,0.12);
     }
 
     .page-header::before {
@@ -23,41 +27,50 @@ cat > /home/claude/portfolio.html << 'HTMLEOF'
       position: absolute;
       inset: 0;
       background-image:
-        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,180,0,0.04) 60px),
-        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,180,0,0.04) 60px);
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,180,0,0.035) 60px),
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,180,0,0.035) 60px);
+      opacity: .9;
     }
 
     .page-header::after {
       content: '';
       position: absolute;
-      top: 0; right: 38%;
-      width: 2px; height: 100%;
-      background: linear-gradient(to bottom, transparent, rgba(255,180,0,0.35) 30%, rgba(255,180,0,0.35) 70%, transparent);
+      right: -120px;
+      top: -120px;
+      width: 420px;
+      height: 420px;
+      border: 1px solid rgba(255,180,0,0.18);
+      border-radius: 50%;
+      box-shadow: 0 0 80px rgba(255,180,0,0.08);
     }
 
     .page-header-inner {
-      position: relative; z-index: 1;
+      position: relative;
+      z-index: 2;
+      max-width: 1180px;
     }
 
     .breadcrumb {
       font-family: var(--font-titulo);
-      font-size: 12px; font-weight: 600;
-      letter-spacing: 2px; text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-      margin-bottom: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 22px;
     }
 
     .breadcrumb a { color: var(--amarelo); }
 
     .page-header h1 {
       font-family: var(--font-titulo);
-      font-size: clamp(52px, 7vw, 90px);
-      font-weight: 800;
-      line-height: 0.95;
+      font-size: clamp(56px, 8vw, 104px);
+      font-weight: 900;
+      line-height: .9;
       text-transform: uppercase;
       color: var(--branco);
-      letter-spacing: -1px;
-      margin-bottom: 20px;
+      letter-spacing: -2px;
+      margin-bottom: 22px;
     }
 
     .page-header h1 em {
@@ -67,18 +80,53 @@ cat > /home/claude/portfolio.html << 'HTMLEOF'
     }
 
     .page-header p {
-      font-size: 17px;
+      font-size: 18px;
       color: var(--texto-secundario);
       font-weight: 300;
-      max-width: 460px;
-      line-height: 1.6;
+      max-width: 560px;
+      line-height: 1.7;
     }
 
-    /* ── Filtros ── */
+    .portfolio-stats {
+      position: relative;
+      z-index: 2;
+      margin-top: 48px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(140px, 1fr));
+      max-width: 920px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(8,12,18,0.72);
+      backdrop-filter: blur(10px);
+    }
+
+    .portfolio-stat {
+      padding: 24px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .portfolio-stat:last-child { border-right: 0; }
+
+    .portfolio-stat strong {
+      display: block;
+      font-family: var(--font-titulo);
+      color: var(--amarelo);
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    .portfolio-stat span {
+      color: rgba(255,255,255,0.48);
+      font-size: 13px;
+    }
+
     .filtros-wrap {
-      background: var(--preto-claro);
-      border-bottom: 1px solid var(--borda-amarela);
-      padding: 24px 48px;
+      position: sticky;
+      top: 86px;
+      z-index: 10;
+      background: rgba(15,20,28,0.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,180,0,0.16);
+      padding: 20px 48px;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -87,8 +135,10 @@ cat > /home/claude/portfolio.html << 'HTMLEOF'
 
     .filtros-label {
       font-family: var(--font-titulo);
-      font-size: 11px; font-weight: 600;
-      letter-spacing: 2.5px; text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
       color: rgba(255,255,255,0.3);
       margin-right: 8px;
       white-space: nowrap;
@@ -96,176 +146,429 @@ cat > /home/claude/portfolio.html << 'HTMLEOF'
 
     .filtro-btn {
       font-family: var(--font-titulo);
-      font-size: 13px; font-weight: 600;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.12);
-      color: rgba(255,255,255,0.45);
-      padding: 8px 20px;
-      border-radius: 2px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.11);
+      color: rgba(255,255,255,0.52);
+      padding: 10px 18px;
+      border-radius: 999px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.22s;
     }
 
     .filtro-btn:hover {
-      border-color: rgba(255,180,0,0.35);
-      color: rgba(255,180,0,0.8);
+      border-color: rgba(255,180,0,0.42);
+      color: rgba(255,180,0,0.9);
+      transform: translateY(-1px);
     }
 
     .filtro-btn.ativo {
       background: var(--amarelo);
       border-color: var(--amarelo);
       color: var(--preto);
+      box-shadow: 0 10px 28px rgba(255,180,0,0.14);
     }
 
-    /* ── Grid de projetos ── */
     .projetos-wrap {
       padding: 64px 48px 100px;
-      background: var(--preto);
+      background:
+        linear-gradient(180deg, var(--preto) 0%, #080b10 100%);
     }
 
     .projetos-info {
       display: flex;
-      align-items: center;
+      align-items: end;
       justify-content: space-between;
-      margin-bottom: 40px;
+      margin-bottom: 34px;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 20px;
+    }
+
+    .projetos-info h2 {
+      font-family: var(--font-titulo);
+      color: var(--branco);
+      font-size: clamp(28px, 4vw, 44px);
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
     }
 
     .projetos-count {
       font-family: var(--font-titulo);
-      font-size: 13px; font-weight: 600;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.32);
     }
 
-    .projetos-count strong {
-      color: var(--amarelo);
-    }
+    .projetos-count strong { color: var(--amarelo); }
 
     .projetos-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      background: rgba(255,180,0,0.06);
+      gap: 18px;
     }
 
     .proj-card {
-      background: var(--preto-card);
-      border: 1px solid var(--borda-sutil);
+      background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.012));
+      border: 1px solid rgba(255,255,255,0.08);
       overflow: hidden;
       position: relative;
-      transition: background 0.3s;
+      transition: transform .28s, border-color .28s, background .28s;
       cursor: pointer;
+      min-height: 100%;
     }
 
     .proj-card:hover {
-      background: var(--preto-claro);
-    }
-
-    .proj-card::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--amarelo);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s;
-    }
-
-    .proj-card:hover::after {
-      transform: scaleX(1);
+      transform: translateY(-6px);
+      border-color: rgba(255,180,0,0.32);
+      background: rgba(255,255,255,0.04);
     }
 
     .proj-img {
-      height: 220px;
+      height: 245px;
       background: var(--preto-medio);
-      border-bottom: 1px solid var(--borda-sutil);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
       position: relative;
       overflow: hidden;
     }
 
-    /* Para adicionar imagem real: <img src="foto.jpg" style="width:100%;height:100%;object-fit:cover;opacity:0.8"> */
-    .proj-img-placeholder {
-      font-size: 48px;
-      opacity: 0.15;
+    .proj-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: .82;
+      transition: transform .35s, opacity .35s;
+    }
+
+    .proj-card:hover .proj-img img {
+      transform: scale(1.07);
+      opacity: .98;
+    }
+
+    .proj-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 45%, rgba(5,8,12,0.78));
+      pointer-events: none;
+    }
+
+    .proj-badge {
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      z-index: 2;
+      font-family: var(--font-titulo);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--preto);
+      background: var(--amarelo);
+      padding: 8px 12px;
+      border-radius: 999px;
     }
 
     .proj-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(10,14,20,0.75);
+      z-index: 3;
+      background: rgba(7,10,15,0.72);
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0;
-      transition: opacity 0.25s;
+      transition: opacity .25s;
     }
 
-    .proj-card:hover .proj-overlay {
-      opacity: 1;
-    }
+    .proj-card:hover .proj-overlay { opacity: 1; }
 
     .proj-overlay span {
       font-family: var(--font-titulo);
-      font-size: 13px; font-weight: 700;
-      letter-spacing: 2px; text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       color: var(--amarelo);
-      border: 1px solid rgba(255,180,0,0.4);
-      padding: 10px 24px;
-      border-radius: 2px;
+      border: 1px solid rgba(255,180,0,0.45);
+      padding: 12px 24px;
+      border-radius: 999px;
     }
 
     .proj-body {
-      padding: 28px 28px 32px;
+      padding: 26px 26px 28px;
+    }
+
+    .proj-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 10px;
     }
 
     .proj-cat {
       font-family: var(--font-titulo);
-      font-size: 11px; font-weight: 600;
-      letter-spacing: 2.5px; text-transform: uppercase;
-      color: rgba(255,180,0,0.6);
-      margin-bottom: 10px;
-      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      color: rgba(255,180,0,0.72);
+    }
+
+    .proj-num {
+      font-family: var(--font-titulo);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.18);
     }
 
     .proj-body h3 {
       font-family: var(--font-titulo);
-      font-size: 22px; font-weight: 700;
+      font-size: 22px;
+      font-weight: 800;
       color: var(--branco);
-      letter-spacing: 0.5px;
+      letter-spacing: .2px;
       margin-bottom: 10px;
     }
 
     .proj-body p {
       font-size: 14px;
-      color: rgba(255,255,255,0.38);
-      line-height: 1.6;
+      color: rgba(255,255,255,0.44);
+      line-height: 1.7;
       font-weight: 300;
+      margin-bottom: 18px;
     }
 
-    .proj-num {
+    .proj-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .proj-tags span {
+      font-size: 12px;
+      color: rgba(255,255,255,0.48);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.025);
+      padding: 6px 9px;
+      border-radius: 999px;
+    }
+
+    .portfolio-cta-mini {
+      margin-top: 60px;
+      padding: 34px;
+      border: 1px solid rgba(255,180,0,0.18);
+      background:
+        radial-gradient(circle at top right, rgba(255,180,0,0.12), transparent 28%),
+        rgba(255,255,255,0.025);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .portfolio-cta-mini h3 {
+      color: var(--branco);
       font-family: var(--font-titulo);
-      font-size: 11px; font-weight: 600;
-      letter-spacing: 2px;
-      color: rgba(255,180,0,0.2);
-      margin-bottom: 6px;
+      font-size: 28px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .portfolio-cta-mini p {
+      color: rgba(255,255,255,0.45);
+      max-width: 620px;
+      line-height: 1.6;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(0,0,0,0.74);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal.ativo { display: flex; }
+
+    .modal-box {
+      width: min(980px, 100%);
+      max-height: 90vh;
+      overflow: auto;
+      background: #0b0f16;
+      border: 1px solid rgba(255,180,0,0.22);
+      box-shadow: 0 30px 90px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.5);
+      color: var(--branco);
+      cursor: pointer;
+      font-size: 22px;
+    }
+
+    .modal-img {
+      height: 360px;
+      background: #111;
+    }
+
+    .modal-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       display: block;
+      opacity: .9;
+    }
+
+    .modal-content {
+      padding: 34px;
+    }
+
+    .modal-cat {
+      font-family: var(--font-titulo);
+      color: var(--amarelo);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .modal-content h3 {
+      font-family: var(--font-titulo);
+      color: var(--branco);
+      font-size: 34px;
+      margin-bottom: 14px;
+    }
+
+    .modal-content p {
+      color: rgba(255,255,255,0.55);
+      line-height: 1.75;
+      margin-bottom: 24px;
+    }
+
+    .modal-lista {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .modal-lista div {
+      padding: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.62);
+      font-size: 14px;
+    }
+
+    .modal-lista strong {
+      display: block;
+      color: var(--amarelo);
+      font-family: var(--font-titulo);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      margin-bottom: 5px;
+    }
+
+
+
+    .atendimento-faixa {
+      padding: 54px 48px;
+      background: linear-gradient(135deg, #0c1119 0%, #111722 100%);
+      border-bottom: 1px solid rgba(255,180,0,0.16);
+    }
+
+    .atendimento-faixa-inner {
+      max-width: 1180px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .atendimento-faixa h2 {
+      font-family: var(--font-titulo);
+      color: var(--branco);
+      font-size: clamp(28px, 4vw, 46px);
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .atendimento-faixa h2 em { color: var(--amarelo); font-style: normal; }
+
+    .atendimento-faixa p {
+      color: rgba(255,255,255,0.52);
+      line-height: 1.7;
+      max-width: 620px;
+    }
+
+    .atendimento-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .atendimento-pills span {
+      border: 1px solid rgba(255,180,0,0.22);
+      color: rgba(255,255,255,0.66);
+      background: rgba(255,180,0,0.045);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 1100px) {
+      .projetos-grid { grid-template-columns: repeat(2, 1fr); }
+      .portfolio-stats { grid-template-columns: repeat(2, 1fr); }
+      .portfolio-stat:nth-child(2) { border-right: 0; }
+      .portfolio-stat:nth-child(1),
+      .portfolio-stat:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.08); }
     }
 
     @media (max-width: 900px) {
-      .page-header { padding: 140px 24px 60px; }
-      .filtros-wrap { padding: 20px 24px; }
-      .projetos-wrap { padding: 48px 24px 80px; }
+      .page-header { padding: 130px 24px 56px; min-height: auto; }
+      .filtros-wrap { position: static; padding: 18px 24px; }
+      .projetos-wrap { padding: 46px 24px 76px; }
       .projetos-grid { grid-template-columns: 1fr; }
+      .portfolio-stats { grid-template-columns: 1fr; }
+      .portfolio-stat { border-right: 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .portfolio-stat:last-child { border-bottom: 0; }
+      .modal-img { height: 240px; }
+      .modal-lista { grid-template-columns: 1fr; }
+      .atendimento-faixa { padding: 42px 24px; }
+      .atendimento-faixa-inner { grid-template-columns: 1fr; }
+      .atendimento-pills { justify-content: flex-start; }
     }
   </style>
 </head>
+
 <body>
 
 <!-- NAVBAR -->
@@ -286,146 +589,305 @@ cat > /home/claude/portfolio.html << 'HTMLEOF'
 </nav>
 
 <!-- HEADER DA PÁGINA -->
-<div class="page-header">
+<header class="page-header">
   <div class="page-header-inner">
     <p class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Portfólio</p>
     <h1>Nossos<em>Projetos</em></h1>
-    <p>Confira o que já entregamos para nossos clientes em automação, elétrica, TI e refrigeração industrial.</p>
+    <p>Conheça algumas entregas realizadas pela Infoprime em engenharia industrial, elétrica, tecnologia da informação e refrigeração, com atendimento para empresas em todo o Brasil.</p>
+
+    <div class="portfolio-stats">
+      <div class="portfolio-stat">
+        <strong>200+</strong>
+        <span>Projetos entregues</span>
+      </div>
+      <div class="portfolio-stat">
+        <strong>12+</strong>
+        <span>Anos de mercado</span>
+      </div>
+      <div class="portfolio-stat">
+        <strong>4</strong>
+        <span>Áreas de atuação</span>
+      </div>
+      <div class="portfolio-stat">
+        <strong>BR</strong>
+        <span>Atendimento nacional</span>
+      </div>
+    </div>
   </div>
-</div>
+</header>
+
+<section class="atendimento-faixa">
+  <div class="atendimento-faixa-inner">
+    <div>
+      <h2>Atendimento <em>Nacional</em></h2>
+      <p>Atendemos empresas em qualquer estado do país, com soluções para indústrias, operações comerciais e ambientes corporativos que precisam de suporte técnico especializado.</p>
+    </div>
+    <div class="atendimento-pills">
+      <span>Engenharia Industrial</span>
+      <span>Elétrica</span>
+      <span>Tecnologia da Informação</span>
+      <span>Refrigeração</span>
+    </div>
+  </div>
+</section>
 
 <!-- FILTROS -->
 <div class="filtros-wrap">
   <span class="filtros-label">Filtrar</span>
   <button class="filtro-btn ativo" data-filtro="todos">Todos</button>
-  <button class="filtro-btn" data-filtro="engenharia">Engenharia Industrial</button>
+  <button class="filtro-btn" data-filtro="engenharia">Industrial</button>
   <button class="filtro-btn" data-filtro="eletrica">Elétrica</button>
-  <button class="filtro-btn" data-filtro="ti">Tecnologia da Informação</button>
+  <button class="filtro-btn" data-filtro="ti">TI</button>
   <button class="filtro-btn" data-filtro="refrigeracao">Refrigeração</button>
 </div>
 
 <!-- PROJETOS -->
-<div class="projetos-wrap">
+<main class="projetos-wrap">
   <div class="projetos-info">
-    <p class="projetos-count">Exibindo <strong id="count">8</strong> projetos</p>
+    <div>
+      <h2>Projetos em destaque</h2>
+      <p class="projetos-count">Exibindo <strong id="count">8</strong> projetos</p>
+    </div>
+    <a href="index.html#contato" class="btn-fantasma" style="border-color:rgba(255,180,0,0.3);color:rgba(255,180,0,0.8)">
+      Solicitar orçamento →
+    </a>
   </div>
 
   <div class="projetos-grid" id="grid">
 
-    <!-- =============================================
-         SUBSTITUA os dados abaixo pelos projetos reais.
-         Para adicionar foto: dentro de .proj-img, troque
-         o .proj-img-placeholder por:
-         <img src="assets/img/projetos/foto.jpg"
-              style="width:100%;height:100%;object-fit:cover;opacity:0.8">
-    ============================================= -->
+    <!--
+      PARA EDITAR:
+      - Troque src="assets/img/..." pela foto do projeto
+      - Troque h3, p e os data-*
+      - data-cat precisa bater com o filtro: engenharia, eletrica, ti ou refrigeracao
+    -->
 
-    <div class="proj-card" data-cat="engenharia">
+    <article class="proj-card" data-cat="engenharia"
+      data-titulo="Engenharia Industrial"
+      data-categoria="Engenharia Industrial"
+      data-img="assets/img/industria1.jpg"
+      data-descricao="Projeto industrial com foco em melhoria operacional, segurança e integração de processos para ambiente produtivo."
+      data-cliente="Cliente industrial"
+      data-local="Atendimento em todo o Brasil"
+      data-ano="2025"
+      data-servicos="Projetos técnicos, suporte industrial e melhoria de processos">
       <div class="proj-img">
-        <div class="proj-img-placeholder">🏭</div>
-        <div class="proj-overlay"><span>Ver projeto</span></div>
+        <span class="proj-badge">Industrial</span>
+        <img src="assets/img/industria1.jpg" alt="Projeto Engenharia Industrial">
+        <div class="proj-overlay"><span>Ver detalhes</span></div>
       </div>
       <div class="proj-body">
-        <span class="proj-num">01</span>
-        <span class="proj-cat">Engenharia Industrial</span>
-        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
-        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+        <div class="proj-topline">
+          <span class="proj-cat">Engenharia Industrial</span>
+          <span class="proj-num">01</span>
+        </div>
+        <h3>Engenharia Industrial</h3>
+        <p>Projeto desenvolvido para apoiar processos industriais com mais controle, eficiência e segurança.</p>
+        <div class="proj-tags">
+          <span>Processos</span><span>Indústria</span><span>Eficiência</span>
+        </div>
       </div>
-    </div>
+    </article>
 
-    <div class="proj-card" data-cat="eletrica">
+    <article class="proj-card" data-cat="eletrica"
+      data-titulo="Instalações Elétricas"
+      data-categoria="Elétrica"
+      data-img="assets/img/eletrica1.jpg"
+      data-descricao="Execução e acompanhamento de serviços elétricos com atenção à segurança, organização e conformidade técnica."
+      data-cliente="Cliente corporativo"
+      data-local="Atendimento em todo o Brasil"
+      data-ano="2025"
+      data-servicos="Instalações elétricas, medições, infraestrutura e adequações">
       <div class="proj-img">
-        <div class="proj-img-placeholder">⚡</div>
-        <div class="proj-overlay"><span>Ver projeto</span></div>
+        <span class="proj-badge">Elétrica</span>
+        <img src="assets/img/eletrica1.jpg" alt="Projeto Elétrica">
+        <div class="proj-overlay"><span>Ver detalhes</span></div>
       </div>
       <div class="proj-body">
-        <span class="proj-num">02</span>
-        <span class="proj-cat">Elétrica</span>
-        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
-        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+        <div class="proj-topline">
+          <span class="proj-cat">Elétrica</span>
+          <span class="proj-num">02</span>
+        </div>
+        <h3>Instalações Elétricas</h3>
+        <p>Serviços elétricos para ambientes industriais e empresariais, priorizando segurança e confiabilidade.</p>
+        <div class="proj-tags">
+          <span>Segurança</span><span>Painéis</span><span>Infraestrutura</span>
+        </div>
       </div>
-    </div>
+    </article>
 
-    <div class="proj-card" data-cat="ti">
+    <article class="proj-card" data-cat="ti"
+      data-titulo="Tecnologia da Informação"
+      data-categoria="Tecnologia da Informação"
+      data-img="assets/img/tecnologia1.jpg"
+      data-descricao="Soluções em tecnologia para empresas, incluindo infraestrutura, suporte técnico, redes e sistemas."
+      data-cliente="Cliente empresarial"
+      data-local="Atendimento em todo o Brasil"
+      data-ano="2025"
+      data-servicos="Infraestrutura de TI, redes, suporte técnico e sistemas">
       <div class="proj-img">
-        <div class="proj-img-placeholder">💻</div>
-        <div class="proj-overlay"><span>Ver projeto</span></div>
+        <span class="proj-badge">TI</span>
+        <img src="assets/img/tecnologia1.jpg" alt="Projeto Tecnologia da Informação">
+        <div class="proj-overlay"><span>Ver detalhes</span></div>
       </div>
       <div class="proj-body">
-        <span class="proj-num">03</span>
-        <span class="proj-cat">Tecnologia da Informação</span>
-        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
-        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+        <div class="proj-topline">
+          <span class="proj-cat">Tecnologia da Informação</span>
+          <span class="proj-num">03</span>
+        </div>
+        <h3>Tecnologia da Informação</h3>
+        <p>Implantação e suporte de soluções tecnológicas para melhorar a operação e a comunicação da empresa.</p>
+        <div class="proj-tags">
+          <span>Redes</span><span>Suporte</span><span>Sistemas</span>
+        </div>
       </div>
-    </div>
+    </article>
 
-    <div class="proj-card" data-cat="refrigeracao">
+    <article class="proj-card" data-cat="refrigeracao"
+      data-titulo="Refrigeração Industrial"
+      data-categoria="Refrigeração"
+      data-img="assets/img/refrigeracao1.jpg"
+      data-descricao="Serviços em refrigeração com foco em desempenho, manutenção e funcionamento contínuo dos equipamentos."
+      data-cliente="Cliente comercial"
+      data-local="Atendimento em todo o Brasil"
+      data-ano="2025"
+      data-servicos="Manutenção, instalação e diagnóstico de refrigeração">
       <div class="proj-img">
-        <div class="proj-img-placeholder">❄️</div>
-        <div class="proj-overlay"><span>Ver projeto</span></div>
+        <span class="proj-badge">Refrigeração</span>
+        <img src="assets/img/refrigeracao1.jpg" alt="Projeto Refrigeração">
+        <div class="proj-overlay"><span>Ver detalhes</span></div>
       </div>
       <div class="proj-body">
-        <span class="proj-num">04</span>
-        <span class="proj-cat">Refrigeração</span>
-        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
-        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+        <div class="proj-topline">
+          <span class="proj-cat">Refrigeração</span>
+          <span class="proj-num">04</span>
+        </div>
+        <h3>Refrigeração Industrial</h3>
+        <p>Atuação em sistemas de climatização e refrigeração para manter performance e confiabilidade.</p>
+        <div class="proj-tags">
+          <span>Climatização</span><span>Manutenção</span><span>Diagnóstico</span>
+        </div>
       </div>
-    </div>
+    </article>
 
-    <div class="proj-card" data-cat="eletrica">
+    <article class="proj-card" data-cat="engenharia"
+      data-titulo="Automação de Processos"
+      data-categoria="Engenharia Industrial"
+      data-img="assets/img/industria1.jpg"
+      data-descricao="Melhoria de processos industriais com soluções técnicas para reduzir falhas e aumentar previsibilidade."
+      data-cliente="Editar cliente"
+      data-local="Atendimento em todo o Brasil"
+      data-ano="2025"
+      data-servicos="Automação, documentação técnica e padronização de processos">
       <div class="proj-img">
-        <div class="proj-img-placeholder">🔌</div>
-        <div class="proj-overlay"><span>Ver projeto</span></div>
+        <span class="proj-badge">Industrial</span>
+        <img src="assets/img/industria1.jpg" alt="Automação de Processos">
+        <div class="proj-overlay"><span>Ver detalhes</span></div>
       </div>
       <div class="proj-body">
-        <span class="proj-num">05</span>
-        <span class="proj-cat">Elétrica</span>
-        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
-        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+        <div class="proj-topline">
+          <span class="proj-cat">Engenharia Industrial</span>
+          <span class="proj-num">05</span>
+        </div>
+        <h3>Automação de Processos</h3>
+        <p>Projeto voltado à padronização, melhoria e acompanhamento de processos industriais.</p>
+        <div class="proj-tags">
+          <span>Automação</span><span>Controle</span><span>Operação</span>
+        </div>
       </div>
-    </div>
+    </article>
 
-    <div class="proj-card" data-cat="engenharia">
+    <article class="proj-card" data-cat="eletrica"
+      data-titulo="Painéis e Infraestrutura"
+      data-categoria="Elétrica"
+      data-img="assets/img/eletrica1.jpg"
+      data-descricao="Organização e adequação de infraestrutura elétrica para ambientes que exigem estabilidade e segurança."
+      data-cliente="Editar cliente"
+      data-local="Atendimento em todo o Brasil"
+      data-ano="2025"
+      data-servicos="Painéis, infraestrutura elétrica e adequações técnicas">
       <div class="proj-img">
-        <div class="proj-img-placeholder">⚙️</div>
-        <div class="proj-overlay"><span>Ver projeto</span></div>
+        <span class="proj-badge">Elétrica</span>
+        <img src="assets/img/eletrica1.jpg" alt="Painéis e Infraestrutura">
+        <div class="proj-overlay"><span>Ver detalhes</span></div>
       </div>
       <div class="proj-body">
-        <span class="proj-num">06</span>
-        <span class="proj-cat">Engenharia Industrial</span>
-        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
-        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+        <div class="proj-topline">
+          <span class="proj-cat">Elétrica</span>
+          <span class="proj-num">06</span>
+        </div>
+        <h3>Painéis e Infraestrutura</h3>
+        <p>Serviços de infraestrutura elétrica pensados para operação contínua e manutenção facilitada.</p>
+        <div class="proj-tags">
+          <span>Painéis</span><span>Medição</span><span>Adequação</span>
+        </div>
       </div>
-    </div>
+    </article>
 
-    <div class="proj-card" data-cat="ti">
+    <article class="proj-card" data-cat="ti"
+      data-titulo="Infraestrutura Corporativa"
+      data-categoria="Tecnologia da Informação"
+      data-img="assets/img/tecnologia1.jpg"
+      data-descricao="Estruturação de ambiente de TI para melhorar conectividade, segurança e disponibilidade dos serviços."
+      data-cliente="Editar cliente"
+      data-local="Atendimento em todo o Brasil"
+      data-ano="2025"
+      data-servicos="Redes, cabeamento, suporte e organização de infraestrutura">
       <div class="proj-img">
-        <div class="proj-img-placeholder">🖥️</div>
-        <div class="proj-overlay"><span>Ver projeto</span></div>
+        <span class="proj-badge">TI</span>
+        <img src="assets/img/tecnologia1.jpg" alt="Infraestrutura Corporativa">
+        <div class="proj-overlay"><span>Ver detalhes</span></div>
       </div>
       <div class="proj-body">
-        <span class="proj-num">07</span>
-        <span class="proj-cat">Tecnologia da Informação</span>
-        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
-        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+        <div class="proj-topline">
+          <span class="proj-cat">Tecnologia da Informação</span>
+          <span class="proj-num">07</span>
+        </div>
+        <h3>Infraestrutura Corporativa</h3>
+        <p>Atendimento técnico para organização, suporte e melhoria da infraestrutura de tecnologia.</p>
+        <div class="proj-tags">
+          <span>Infraestrutura</span><span>Redes</span><span>Suporte</span>
+        </div>
       </div>
-    </div>
+    </article>
 
-    <div class="proj-card" data-cat="refrigeracao">
+    <article class="proj-card" data-cat="refrigeracao"
+      data-titulo="Manutenção de Climatização"
+      data-categoria="Refrigeração"
+      data-img="assets/img/refrigeracao1.jpg"
+      data-descricao="Manutenção em equipamentos de climatização para preservar desempenho, economia e vida útil."
+      data-cliente="Editar cliente"
+      data-local="Atendimento em todo o Brasil"
+      data-ano="2025"
+      data-servicos="Limpeza, manutenção preventiva, diagnóstico e correções">
       <div class="proj-img">
-        <div class="proj-img-placeholder">🌡️</div>
-        <div class="proj-overlay"><span>Ver projeto</span></div>
+        <span class="proj-badge">Refrigeração</span>
+        <img src="assets/img/refrigeracao1.jpg" alt="Manutenção de Climatização">
+        <div class="proj-overlay"><span>Ver detalhes</span></div>
       </div>
       <div class="proj-body">
-        <span class="proj-num">08</span>
-        <span class="proj-cat">Refrigeração</span>
-        <h3>Nome do Projeto</h3><!-- SUBSTITUIR -->
-        <p>Descrição breve do que foi feito, cliente atendido e resultado alcançado.</p><!-- SUBSTITUIR -->
+        <div class="proj-topline">
+          <span class="proj-cat">Refrigeração</span>
+          <span class="proj-num">08</span>
+        </div>
+        <h3>Manutenção de Climatização</h3>
+        <p>Serviço preventivo e corretivo para sistemas de climatização comercial e industrial.</p>
+        <div class="proj-tags">
+          <span>Preventiva</span><span>Climatização</span><span>Performance</span>
+        </div>
       </div>
-    </div>
+    </article>
 
   </div>
-</div>
+
+  <section class="portfolio-cta-mini">
+    <div>
+      <h3>Tem um projeto parecido?</h3>
+      <p>Entre em contato com a Infoprime e solicite uma avaliação técnica para sua empresa, em qualquer estado do Brasil.</p>
+    </div>
+    <a href="index.html#contato" class="btn-primario">Falar com especialista</a>
+  </section>
+</main>
 
 <!-- CTA -->
 <section class="secao-cta">
@@ -443,8 +905,7 @@ cat > /home/claude/portfolio.html << 'HTMLEOF'
         <img src="assets/img/fotosite/logo.png" alt="Infoprime" style="height: 40px; width: auto;">
       </div>
       <p class="footer-descricao">
-        Soluções em tecnologia e automação industrial desde 2013.
-        Comprometidos com qualidade, pontualidade e inovação.
+        Soluções em tecnologia, automação, elétrica, TI e refrigeração desde 2013. Atendimento em todo o Brasil com qualidade, pontualidade e inovação.
       </p>
     </div>
 
@@ -462,10 +923,9 @@ cat > /home/claude/portfolio.html << 'HTMLEOF'
     <div class="footer-col">
       <div class="footer-col-titulo">Contato</div>
       <ul>
-        <!-- SUBSTITUIR pelos dados reais -->
-        <li><a href="mailto:contato@infoprime.com.br">contato@infoprime.com.br</a></li>
-        <li><a href="tel:+555199999999">(51) 9999-9999</a></li>
-        <li><a href="#">Porto Alegre, RS</a></li>
+        <li><a href="mailto:infoprime@infoprimers.com.br">infoprime@infoprimers.com.br</a></li>
+        <li><a href="tel:+555137979242">(51) 3797-9242</a></li>
+        <li><a href="#">Sede em Charqueadas - RS | Atendimento Nacional</a></li>
       </ul>
     </div>
   </div>
@@ -477,38 +937,111 @@ cat > /home/claude/portfolio.html << 'HTMLEOF'
 </footer>
 
 <!-- WHATSAPP FLUTUANTE -->
-<!-- SUBSTITUIR o número pelo real -->
-<a href="https://wa.me/555199999999" class="whatsapp-btn" target="_blank" rel="noopener" aria-label="WhatsApp">
+<a href="https://wa.me/555137979242" class="whatsapp-btn" target="_blank" rel="noopener" aria-label="WhatsApp">
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
   </svg>
 </a>
+
+<!-- MODAL DE PROJETO -->
+<div class="modal" id="modalProjeto" aria-hidden="true">
+  <div class="modal-box">
+    <button class="modal-close" id="fecharModal" aria-label="Fechar">×</button>
+
+    <div class="modal-img">
+      <img id="modalImg" src="" alt="">
+    </div>
+
+    <div class="modal-content">
+      <div class="modal-cat" id="modalCategoria"></div>
+      <h3 id="modalTitulo"></h3>
+      <p id="modalDescricao"></p>
+
+      <div class="modal-lista">
+        <div><strong>Cliente</strong><span id="modalCliente"></span></div>
+        <div><strong>Local</strong><span id="modalLocal"></span></div>
+        <div><strong>Ano</strong><span id="modalAno"></span></div>
+        <div><strong>Serviços</strong><span id="modalServicos"></span></div>
+      </div>
+
+      <a href="index.html#contato" class="btn-primario">Solicitar projeto similar</a>
+    </div>
+  </div>
+</div>
 
 <script>
   const btns = document.querySelectorAll('.filtro-btn');
   const cards = document.querySelectorAll('.proj-card');
   const count = document.getElementById('count');
 
+  function atualizarContagem(filtro) {
+    let visible = 0;
+
+    cards.forEach(card => {
+      const mostrar = filtro === 'todos' || card.dataset.cat === filtro;
+      card.style.display = mostrar ? '' : 'none';
+      if (mostrar) visible++;
+    });
+
+    count.textContent = visible;
+  }
+
   btns.forEach(btn => {
     btn.addEventListener('click', () => {
       btns.forEach(b => b.classList.remove('ativo'));
       btn.classList.add('ativo');
-      const filtro = btn.dataset.filtro;
-      let visible = 0;
-      cards.forEach(card => {
-        const mostrar = filtro === 'todos' || card.dataset.cat === filtro;
-        card.style.display = mostrar ? '' : 'none';
-        if (mostrar) visible++;
-      });
-      count.textContent = visible;
+      atualizarContagem(btn.dataset.filtro);
     });
   });
+
+  const modal = document.getElementById('modalProjeto');
+  const fecharModal = document.getElementById('fecharModal');
+
+  const modalImg = document.getElementById('modalImg');
+  const modalCategoria = document.getElementById('modalCategoria');
+  const modalTitulo = document.getElementById('modalTitulo');
+  const modalDescricao = document.getElementById('modalDescricao');
+  const modalCliente = document.getElementById('modalCliente');
+  const modalLocal = document.getElementById('modalLocal');
+  const modalAno = document.getElementById('modalAno');
+  const modalServicos = document.getElementById('modalServicos');
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      modalImg.src = card.dataset.img;
+      modalImg.alt = card.dataset.titulo;
+      modalCategoria.textContent = card.dataset.categoria;
+      modalTitulo.textContent = card.dataset.titulo;
+      modalDescricao.textContent = card.dataset.descricao;
+      modalCliente.textContent = card.dataset.cliente;
+      modalLocal.textContent = card.dataset.local;
+      modalAno.textContent = card.dataset.ano;
+      modalServicos.textContent = card.dataset.servicos;
+
+      modal.classList.add('ativo');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function fechar() {
+    modal.classList.remove('ativo');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  fecharModal.addEventListener('click', fechar);
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) fechar();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') fechar();
+  });
+
+  atualizarContagem('todos');
 </script>
 
 </body>
 </html>
-HTMLEOF
-echo "ok"
-Output
-
-ok
