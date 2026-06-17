@@ -1,6 +1,26 @@
-Thanks for downloading this template!
+# Infoprime Engenharia Industrial
 
-Template Name: Bocor
-Template URL: https://bootstrapmade.com/bocor-bootstrap-template-nice-animation/
-Author: BootstrapMade.com
-License: https://bootstrapmade.com/license/
+Site institucional desenvolvido para a empresa Infoprime Engenharia Industrial.
+
+## Tecnologias
+
+- HTML5
+- CSS3
+- JavaScript
+- Responsive Design
+
+## Funcionalidades
+
+- Landing Page
+- Página de Portfólio
+- Página de Orçamento
+- Botão WhatsApp
+- Layout Responsivo
+
+## Demonstração
+
+https://iurileao.github.io/infoprime-site/
+
+## Autor
+
+Iuri Gabriel Leão
